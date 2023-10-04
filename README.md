@@ -1,8 +1,8 @@
  <!-- LTeX: disabled=true -->
-# {{workflow-name}} <!-- LTeX: enabled=true -->
-![](https://img.shields.io/github/downloads/chrisgrieser/{{workflow-id}}/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/{{workflow-id}}?label=Latest%20Release&style=plastic) 
+# alfred homebrew <!-- LTeX: enabled=true -->
+![](https://img.shields.io/github/downloads/chrisgrieser/alfred-homebrew/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic) 
 
-{{workflow-description}}
+Search, install, or uninstall homebrew packages conveniently via Alfred.
 
 - [ ] Showcase image to be inserted here.
 

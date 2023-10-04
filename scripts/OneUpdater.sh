@@ -2,8 +2,8 @@
 # shellcheck disable=2154,2155
 
 # THESE VARIABLES MUST BE SET. SEE THE ONEUPDATER README FOR AN EXPLANATION OF EACH.
-readonly remote_info_plist="https://raw.githubusercontent.com/{{owner}}/{{workflow-id}}/main/info.plist"
-readonly workflow_url="https://github.com/{{owner}}/{{workflow-id}}/releases/latest/download/{{workflow-id}}.alfredworkflow"
+readonly remote_info_plist="https://raw.githubusercontent.com/chrisgrieser/alfred-homebrew/main/info.plist"
+readonly workflow_url="https://github.com/chrisgrieser/alfred-homebrew/releases/latest/download/alfred-homebrew.alfredworkflow"
 readonly download_type="direct"
 readonly frequency_check="1"
 
