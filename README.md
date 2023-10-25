@@ -3,7 +3,14 @@
 
 Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
-<img src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/3487543d-8836-40fc-967f-4c95a246386d" alt="showcase brew install" width=50%>
+<img width="50%" alt="showcase brew install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/a46f48c7-e5ce-4eb2-aeb1-451231043b26">
+
+<img src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/9c9ad713-5650-4354-86e1-af707ca18634" alt="showcase brew uninstall" width=50%>
+
+<img src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/4ef67c75-df99-438a-a481-d069a48442bf" alt="showcase brew reinstall" width=50%>
+
+<img width="50%" alt="showcase brew font install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/5bb4c0da-a366-49f4-b5be-38d641cc5a2f">
+
 
 ## Usage
 - Search for a Homebrew package via the `bi` keyword.
