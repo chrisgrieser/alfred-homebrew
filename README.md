@@ -5,9 +5,9 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 <img width="50%" alt="showcase brew install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/a46f48c7-e5ce-4eb2-aeb1-451231043b26">
 
-<img src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/9c9ad713-5650-4354-86e1-af707ca18634" alt="showcase brew uninstall" width=50%>
+<img width="50%" alt="showcase brew reinstall" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/f7a30be0-64c0-42ef-80d6-969a73922706">
 
-<img src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/4ef67c75-df99-438a-a481-d069a48442bf" alt="showcase brew reinstall" width=50%>
+<img width="50%" alt="showcase brew uninstall" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/b40a4300-7b2d-44fd-89a3-90fdf0190271">
 
 <img width="50%" alt="showcase brew font install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/5bb4c0da-a366-49f4-b5be-38d641cc5a2f">
 
