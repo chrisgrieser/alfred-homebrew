@@ -17,7 +17,7 @@ function run(argv) {
 
 	/** @type{AlfredItem[]} */
 	const casks = app
-		.doShellScript("ls -1 /opt/homebrew/Caskroom") // quicker than `brew list`
+    .doShellScript('cd "$(brew --prefix)" ; ls -1 ./Caskroom') // quicker than `brew list`
 		.split("\r")
 		.map((name) => {
 			const zap = useZap ? "--zap" : "";
