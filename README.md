@@ -29,11 +29,15 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
   tap](https://github.com/Homebrew/homebrew-cask-fonts) via the `bf` keyword
   (`brew install font-…`).
 
+> [!NOTE]
+> The workflow uses the local homebrew packages cache. This means that the list
+> of packages is automatically updated when you run `brew update` in your
+> terminal.
+
 ## Installation
 [➡️ Download the latest release.](./releases/latest)
 
-When admitted to the Alfred Gallery, the workflow auto-updates via Alfred's
-workflow-update mechanism.
+The workflow auto-updates via Alfred's workflow-update mechanism.
 
 <!-- vale Google.FirstPerson = NO -->
 ## Credits
