@@ -17,9 +17,8 @@ function run() {
 	const githubApiUrl =
 		"https://api.github.com/repos/Homebrew/homebrew-cask-fonts/git/trees/master?recursive=1";
 
-	// PERF `ls` quicker than `brew list`
 	const installedFonts = app
-		.doShellScript('cd "$(brew --prefix)" ; ls -1 ./Caskroom')
+		.doShellScript('cd "$(brew --prefix)" ; ls -1 ./Caskroom') // PERF `ls` quicker than `brew list`
 		.split("\r")
 		.filter((/** @type {string} */ name) => name.startsWith("font-"));
 
