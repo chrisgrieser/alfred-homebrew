@@ -9,6 +9,14 @@ function alfredMatcher(str) {
 	return clean + " " + str;
 }
 
+/** @param {string} url */
+function httpRequest(url) {
+	const queryURL = $.NSURL.URLWithString(url);
+	const requestData = $.NSData.dataWithContentsOfURL(queryURL);
+	const requestString = $.NSString.alloc.initWithDataEncoding(requestData, $.NSUTF8StringEncoding).js;
+	return requestString;
+}
+
 //──────────────────────────────────────────────────────────────────────────────
 
 /** @type {AlfredRun} */
@@ -22,7 +30,7 @@ function run() {
 		.split("\r")
 		.filter((/** @type {string} */ name) => name.startsWith("font-"));
 
-	const fonts = JSON.parse(app.doShellScript(`curl -sL "${githubApiUrl}"`))
+	const fonts = JSON.parse(httpRequest(githubApiUrl))
 		.tree.filter((/** @type {{ path: string; }} */ file) => file.path.startsWith("Casks/"))
 		.map((/** @type {{ path: string }} */ entry) => {
 			const fontname = entry.path.slice(6, -3);
