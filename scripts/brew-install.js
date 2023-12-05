@@ -93,13 +93,14 @@ function run() {
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
 	if (cacheIsOutdated(cask90d)) {
 		console.log("Updating download count cache…");
-		const caskDownloadApi = "https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json";
-		const caskDownloadReponse = app.doShellScript(`curl -sL "${caskDownloadApi}"`);
+		const caskDownloadApi =
+			"https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json";
+		const caskDownloadResponse = app.doShellScript(`curl -sL "${caskDownloadApi}"`);
 		const formulaDownloadApi =
 			"https://formulae.brew.sh/api/analytics/install-on-request/homebrew-core/90d.json";
-		const formulaDownloadReponse = app.doShellScript(`curl -sL "${formulaDownloadApi}"`);
-		writeToFile(cask90d, caskDownloadReponse);
-		writeToFile(formula90d, formulaDownloadReponse);
+		const formulaDownloadResponse = app.doShellScript(`curl -sL "${formulaDownloadApi}"`);
+		writeToFile(cask90d, caskDownloadResponse);
+		writeToFile(formula90d, formulaDownloadResponse);
 	}
 	const caskDownloads = JSON.parse(readFile(cask90d)).formulae;
 	const formulaDownloads = JSON.parse(readFile(formula90d)).formulae;
