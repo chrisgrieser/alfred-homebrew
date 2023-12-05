@@ -77,7 +77,7 @@ function run() {
 	const caskJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/cask.jws.json";
 	const formulaJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/formula.jws.json";
 	if (!fileExists(formulaJson) || !fileExists(caskJson)) app.doShellScript("brew update");
-	// yes, data must be parsed twice, since that is how the cache is saved by homebrew
+	// SIC data must be parsed twice, since that is how the cache is saved by homebrew
 	const casksData = JSON.parse(JSON.parse(readFile(caskJson)).payload);
 	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
 
@@ -109,17 +109,23 @@ function run() {
 	const caskIcon = "🛢️";
 	const formulaIcon = "🍺";
 	const caveatIcon = "ℹ️";
+	const installedIcon = "✅";
+	const deprecatedIcon = "⚠️";
 
 	//───────────────────────────────────────────────────────────────────────────
 
 	/** @type{AlfredItem[]} */
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
-		const installedIcon = installedBrews.includes(name) ? " ✅" : "";
+
+		let icons = "";
+		if (installedBrews.includes(name)) icons += " " + installedIcon;
+		if (cask.deprecated) icons += ` ${deprecatedIcon} [deprecated]`;
+
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓ ` : "";
 		const desc = cask.desc ? "·  " + cask.desc : ""; // default to empty string instead of "null"
 		return {
-			title: name + installedIcon,
+			title: name + icons,
 			match: alfredMatcher(name) + desc,
 			subtitle: `${caskIcon} ${downloads} ${desc}`,
 			arg: `--cask ${name}`,
@@ -141,14 +147,17 @@ function run() {
 	/** @type{AlfredItem[]} */
 	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
 		const name = formula.name;
-		const installedIcon = installedBrews.includes(name) ? " ✅" : "";
+		let icons = "";
+		if (installedBrews.includes(name)) icons += " " + installedIcon;
+		if (formula.deprecated) icons += `   ${deprecatedIcon} deprecated`;
+
 		const caveatText = formula.caveats || "";
 		const caveats = caveatText ? caveatIcon + " " : "";
 		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓ ` : "";
 		const desc = formula.desc ? "·  " + formula.desc : ""; // no "null" as desc
 
 		return {
-			title: name + installedIcon,
+			title: name + icons,
 			match: alfredMatcher(name) + desc,
 			subtitle: `${formulaIcon} ${caveats}${downloads} ${desc}`,
 			arg: `--formula ${name}`,
