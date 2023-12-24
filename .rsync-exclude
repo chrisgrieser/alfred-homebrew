@@ -9,3 +9,8 @@ README.md
 LICENSE
 Makefile
 .build-and-release.sh
+
+# symlinks
+alfred.d.ts
+jsconfig.json
+jxa-globals.d.ts
