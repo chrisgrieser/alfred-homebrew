@@ -21,6 +21,7 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 	+ <kbd>⌘</kbd><kbd>⏎</kbd>: Open the package's homepage (`brew home`).
 	+ <kbd>⌥</kbd><kbd>⏎</kbd>: Copy the package's homepage to the clipboard.
 	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Large Text.
+	+ The downloads counts refer to the number of downloads per 90 days.
 - Reinstall a package already installed on your system via the `br` keyword
   (`brew reinstall`).
 - Uninstall a package via the `bu` keyword (`brew uninstall`). Optionally use
