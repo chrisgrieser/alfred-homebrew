@@ -1,8 +1,8 @@
 #!/usr/bin/env osascript -l JavaScript
-
 ObjC.import("stdlib");
 const app = Application.currentApplication();
 app.includeStandardAdditions = true;
+//──────────────────────────────────────────────────────────────────────────────
 
 const alfredMatcher = (/** @type {string} */ str) => str.replaceAll("-", " ") + " " + str + " ";
 
@@ -53,7 +53,7 @@ function run(argv) {
 	if (!isBrewReinstall && includeMacAppStoreSetting) {
 		/** @type{AlfredItem[]} */
 		const appStoreApps = app
-			// using `mdfind` to not have `mas` as dependency
+			// using `mdfind` avoids dependency on `mas`
 			.doShellScript("mdfind kMDItemAppStoreHasReceipt=1")
 			.split("\r")
 			.map((appPath) => {
