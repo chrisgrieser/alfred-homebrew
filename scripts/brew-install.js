@@ -141,6 +141,7 @@ function run() {
 			match: alfredMatcher(name) + desc,
 			subtitle: [caskIcon, downloads, sep, desc].join(""),
 			arg: `--cask ${name}`,
+			quicklookurl: cask.homepage,
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
 				cmd: {
@@ -174,6 +175,7 @@ function run() {
 			match: alfredMatcher(name) + desc,
 			subtitle: [formulaIcon, caveats, downloads, sep, desc].join(""),
 			arg: `--formula ${name}`,
+			quicklookurl: formula.homepage,
 			text: {
 				largetype: caveatText,
 				copy: caveatText,
