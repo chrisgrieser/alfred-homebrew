@@ -71,5 +71,12 @@ function run(argv) {
 		allApps.push(...appStoreApps);
 	}
 
-	return JSON.stringify({ items: allApps });
+	return JSON.stringify({
+		items: allApps,
+		cache: {
+			// INFO low value, since leftover apps after uninstallation would be irritating to the user
+			seconds: 120,
+			loosereload: true,
+		},
+	});
 }
