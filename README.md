@@ -1,6 +1,6 @@
 # Homebrew Search for Alfred
 ![Download count](https://img.shields.io/github/downloads/chrisgrieser/alfred-homebrew/total?label=Total%20Downloads&style=plastic)
-![version number](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic)
+![Version number](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic)
 
 Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
@@ -12,6 +12,11 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 <img width="70%" alt="showcase brew font install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/5bb4c0da-a366-49f4-b5be-38d641cc5a2f">
 
+## Requirements
+- [Homebrew](https://brew.sh/)
+- Optional:
+  [AlfredExtraPane](https://github.com/mr-pennyworth/alfred-extra-pane) for
+  previews of package homepages.
 
 ## Usage
 - Search for a Homebrew package via the `bi` keyword.
