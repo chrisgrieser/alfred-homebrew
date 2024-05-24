@@ -10,8 +10,6 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 <img width="70%" alt="showcase brew uninstall" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/b40a4300-7b2d-44fd-89a3-90fdf0190271">
 
-<img width="70%" alt="showcase brew font install" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/5bb4c0da-a366-49f4-b5be-38d641cc5a2f">
-
 ## Requirements
 - [Homebrew](https://brew.sh/)
 - Optional:
@@ -31,9 +29,6 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
   (`brew reinstall`).
 - Uninstall a package via the `bu` keyword (`brew uninstall`). Optionally use
   the `--zap` option for a clean uninstallation.
-- Search and install fonts available in the [Homebrew font
-  tap](https://github.com/Homebrew/homebrew-cask-fonts) via the `bf` keyword
-  (`brew install font-…`).
 
 > [!NOTE]
 > The workflow uses the local homebrew packages cache. This means that the list
@@ -53,9 +48,7 @@ digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
 compatibility. If you are interested in this subject, feel free to get in touch.
 
-- [Discord](https://discordapp.com/users/462774483044794368/)
 - [Academic Website](https://chris-grieser.de/)
-- [Twitter](https://twitter.com/pseudo_meta)
 - [Mastodon](https://pkm.social/@pseudometa)
 - [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
 - [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)

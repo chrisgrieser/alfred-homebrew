@@ -125,29 +125,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>CD40AB53-70F2-460D-BF34-1DF77F46FB38</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>EDA21286-4E28-4304-A9DB-0BA74AB2C370</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>3F95A285-6177-405E-B2B0-518A7C0276F2</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>⇧: brew info</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>CE590292-EEA5-4025-A89B-42AE38188503</key>
 		<array>
 			<dict>
@@ -272,55 +249,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>1</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>0</integer>
-				<key>keyword</key>
-				<string>bf</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>1</integer>
-				<key>queuemode</key>
-				<integer>2</integer>
-				<key>runningsubtext</key>
-				<string>loading...</string>
-				<key>script</key>
-				<string></string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string>scripts/brew-fonts.js</string>
-				<key>subtext</key>
-				<string>homebrew-cask-fonts</string>
-				<key>title</key>
-				<string>&gt; brew install '{query}'</string>
-				<key>type</key>
-				<integer>8</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>CD40AB53-70F2-460D-BF34-1DF77F46FB38</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>autopaste</key>
 				<false/>
 				<key>clipboardtext</key>
@@ -413,6 +341,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>brew reinstall {query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.terminalcommand</string>
+			<key>uid</key>
+			<string>A98EAA76-0074-4CAD-9A09-48949FC126DB</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -458,21 +401,6 @@
 			<string>CE590292-EEA5-4025-A89B-42AE38188503</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>0</integer>
-				<key>script</key>
-				<string>brew reinstall {query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.terminalcommand</string>
-			<key>uid</key>
-			<string>A98EAA76-0074-4CAD-9A09-48949FC126DB</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -706,17 +634,6 @@ Created by [Chris Grieser](https://chris-grieser.de/)</string>
 			<real>370</real>
 			<key>ypos</key>
 			<real>535</real>
-		</dict>
-		<key>CD40AB53-70F2-460D-BF34-1DF77F46FB38</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>10</integer>
-			<key>note</key>
-			<string>install from homebrew-cask-fonts</string>
-			<key>xpos</key>
-			<real>30</real>
-			<key>ypos</key>
-			<real>235</real>
 		</dict>
 		<key>CE590292-EEA5-4025-A89B-42AE38188503</key>
 		<dict>
