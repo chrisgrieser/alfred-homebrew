@@ -24,13 +24,13 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 	  settings](https://www.alfredapp.com/help/features/terminal/).)
 	+ <kbd>⌘</kbd><kbd>⏎</kbd>: Open the package's homepage (`brew home`).
 	+ <kbd>⌥</kbd><kbd>⏎</kbd>: Copy the package's homepage to the clipboard.
-	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Large Text.
+	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ The download counts refer to the number of downloads per 90 days.
 - Reinstall a package already installed on your system via the `br` keyword (`brew reinstall`).
-	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Large Text.
+	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
 - Uninstall a package via the `bu` keyword (`brew uninstall`). 
 	+ Optionally use the `--zap` option for a clean uninstallation.
-	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Large Text.
+	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
 
 > [!NOTE]
 > The workflow uses the local homebrew packages cache. This means that the list
