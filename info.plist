@@ -577,13 +577,13 @@
 	  settings](https://www.alfredapp.com/help/features/terminal/).)
 	+ &lt;kbd&gt;⌘&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Open the package's homepage (`brew home`).
 	+ &lt;kbd&gt;⌥&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Copy the package's homepage to the clipboard.
-	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Large Text.
+	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Text View.
 	+ The download counts refer to the number of downloads per 90 days.
 - Reinstall a package already installed on your system via the `br` keyword (`brew reinstall`).
-	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Large Text.
+	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Text View.
 - Uninstall a package via the `bu` keyword (`brew uninstall`). 
 	+ Optionally use the `--zap` option for a clean uninstallation.
-	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Large Text.
+	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Text View.
 
 ---
 
