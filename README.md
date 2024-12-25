@@ -26,11 +26,14 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 	+ <kbd>⌥</kbd><kbd>⏎</kbd>: Copy the package's homepage to the clipboard.
 	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ The download counts refer to the number of downloads per 90 days.
-- Reinstall a package already installed on your system via the `br` keyword (`brew reinstall`).
-	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
-- Uninstall a package via the `bu` keyword (`brew uninstall`). 
+- Reinstall a package already installed on your system via the `br` keyword
+  (`brew reinstall`).
+	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text
+	  View.
+- Uninstall a package via the `bu` keyword (`brew uninstall`).
 	+ Optionally use the `--zap` option for a clean uninstallation.
-	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text View.
+	+ <kbd>⇧</kbd><kbd>⏎</kbd>: Show package information (`brew info`) in Text
+	  View.
 
 > [!NOTE]
 > The workflow uses the local homebrew packages cache. This means that the list
@@ -42,24 +45,17 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 The workflow auto-updates via Alfred's workflow-update mechanism.
 
-<!-- vale Google.FirstPerson = NO -->
 ## Credits
-**About Me**  
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
 compatibility. If you are interested in this subject, feel free to get in touch.
 
-- [Academic Website](https://chris-grieser.de/)
+- [Website](https://chris-grieser.de/)
 - [Mastodon](https://pkm.social/@pseudometa)
 - [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
 - [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
 
-<a href='https://ko-fi.com/Y8Y86SQ91' target='_blank'>
-<img
-	height='36'
-	style='border:0px;height:36px;'
-	src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3'
-	border='0'
-	alt='Buy Me a Coffee at ko-fi.com'
-/></a>
+<a href='https://ko-fi.com/Y8Y86SQ91' target='_blank'> <img height='36'
+style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3'
+border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
