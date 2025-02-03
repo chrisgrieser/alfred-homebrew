@@ -4,21 +4,31 @@ const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 //──────────────────────────────────────────────────────────────────────────────
 
-const alfredMatcher = (/** @type {string} */ str) => str.replaceAll("-", " ") + " " + str + " ";
+const alfredMatcher = (/** @type {string} */ str) =>
+	`${str.replaceAll("-", " ")} ${str} `;
 
-const fileExists = (/** @type {string} */ filePath) => Application("Finder").exists(Path(filePath));
+const fileExists = (/** @type {string} */ filePath) =>
+	Application("Finder").exists(Path(filePath));
 
 /** @param {string} path */
 function readFile(path) {
 	const data = $.NSFileManager.defaultManager.contentsAtPath(path);
-	const str = $.NSString.alloc.initWithDataEncoding(data, $.NSUTF8StringEncoding);
+	const str = $.NSString.alloc.initWithDataEncoding(
+		data,
+		$.NSUTF8StringEncoding,
+	);
 	return ObjC.unwrap(str);
 }
 
 /** @param {string} filepath @param {string} text */
 function writeToFile(filepath, text) {
 	const str = $.NSString.alloc.initWithUTF8String(text);
-	str.writeToFileAtomicallyEncodingError(filepath, true, $.NSUTF8StringEncoding, null);
+	str.writeToFileAtomicallyEncodingError(
+		filepath,
+		true,
+		$.NSUTF8StringEncoding,
+		null,
+	);
 }
 
 function ensureCacheFolderExists() {
@@ -40,7 +50,8 @@ function cacheIsOutdated(path) {
 	ensureCacheFolderExists();
 	const cacheObj = Application("System Events").aliases[path];
 	if (!cacheObj.exists()) return true;
-	const cacheAgeDays = (Date.now() - +cacheObj.creationDate()) / 1000 / 60 / 60 / 24;
+	const cacheAgeDays =
+		(Date.now() - +cacheObj.creationDate()) / 1000 / 60 / 60 / 24;
 	const cacheAgeThresholdDays = 7;
 	return cacheAgeDays > cacheAgeThresholdDays;
 }
@@ -49,7 +60,10 @@ function cacheIsOutdated(path) {
 function httpRequest(url) {
 	const queryURL = $.NSURL.URLWithString(url);
 	const data = $.NSData.dataWithContentsOfURL(queryURL);
-	const requestStr = $.NSString.alloc.initWithDataEncoding(data, $.NSUTF8StringEncoding).js;
+	const requestStr = $.NSString.alloc.initWithDataEncoding(
+		data,
+		$.NSUTF8StringEncoding,
+	).js;
 	return requestStr;
 }
 
@@ -73,16 +87,16 @@ function httpRequest(url) {
 //──────────────────────────────────────────────────────────────────────────────
 
 /** @type {AlfredRun} */
-// biome-ignore lint/correctness/noUnusedVariables: Alfred run
 function run() {
 	// 1. MAIN DATA (already cached by homebrew)
 	// DOCS https://formulae.brew.sh/docs/api/ & https://docs.brew.sh/Querying-Brew
 	// these files contain the API response of casks and formulas as payload; they
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
-	const caskJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/cask.jws.json";
-	const formulaJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/formula.jws.json";
-	if (!fileExists(formulaJson) || !fileExists(caskJson)) app.doShellScript("brew update");
+	const caskJson = `${app.pathTo("home folder")}/Library/Caches/Homebrew/api/cask.jws.json`;
+	const formulaJson = `${app.pathTo("home folder")}/Library/Caches/Homebrew/api/formula.jws.json`;
+	if (!fileExists(formulaJson) || !fileExists(caskJson))
+		app.doShellScript("brew update");
 
 	// SIC data must be parsed twice, since that is how the cache is saved by homebrew
 	const casksData = JSON.parse(JSON.parse(readFile(caskJson)).payload);
@@ -98,10 +112,9 @@ function run() {
 	// DOCS https://formulae.brew.sh/analytics/
 	// INFO separate from Alfred's caching mechanism, since the installed
 	// packages should be determined more frequently
-	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
-	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
+	const cask90d = `${$.getenv("alfred_workflow_cache")}/caskDownloads90d.json`;
+	const formula90d = `${$.getenv("alfred_workflow_cache")}/formulaDownloads90d.json`;
 	if (cacheIsOutdated(cask90d)) {
-		// biome-ignore lint/suspicious/noConsole: intentional
 		console.log("Updating download count cache.");
 		const caskDownloads = httpRequest(
 			"https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json",
@@ -122,7 +135,6 @@ function run() {
 	const installedIcon = "✅ ";
 	const deprecatedIcon = "⚠️ ";
 
-	// biome-ignore lint/suspicious/noConsole: intentional
 	console.log("Caches ready.");
 
 	// 5. CREATE ALFRED ITEMS
@@ -131,10 +143,12 @@ function run() {
 		const name = cask.token;
 
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (installedPackages.includes(name)) icons += ` ${installedIcon}`;
 		if (cask.deprecated) icons += `   ${deprecatedIcon}[deprecated]`;
 
-		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
+		const downloads = caskDownloads[name]
+			? `${caskDownloads[name][0].count}↓`
+			: "";
 		const desc = cask.desc || "";
 		const sep = desc && downloads ? "  ·  " : "";
 
@@ -148,11 +162,11 @@ function run() {
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
 				cmd: {
-					subtitle: "⌘: Open " + cask.homepage,
+					subtitle: `⌘: Open ${cask.homepage}`,
 					arg: cask.homepage,
 				},
 				alt: {
-					subtitle: "⌥: Copy " + cask.homepage,
+					subtitle: `⌥: Copy ${cask.homepage}`,
 					arg: cask.homepage,
 				},
 			},
@@ -164,12 +178,14 @@ function run() {
 	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
 		const name = formula.name;
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (installedPackages.includes(name)) icons += ` ${installedIcon}`;
 		if (formula.deprecated) icons += `   ${deprecatedIcon}deprecated`;
 
 		const caveatText = formula.caveats || "";
-		const caveats = caveatText ? caveatIcon + " " : "";
-		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓` : "";
+		const caveats = caveatText ? `${caveatIcon} ` : "";
+		const downloads = formulaDownloads[name]
+			? `${formulaDownloads[name][0].count}↓`
+			: "";
 		const desc = formula.desc || "";
 		const sep = desc && downloads ? "  ·  " : "";
 
@@ -187,11 +203,11 @@ function run() {
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
 				cmd: {
-					subtitle: "⌘: Open " + formula.homepage,
+					subtitle: `⌘: Open ${formula.homepage}`,
 					arg: formula.homepage,
 				},
 				alt: {
-					subtitle: "⌥: Copy " + formula.homepage,
+					subtitle: `⌥: Copy ${formula.homepage}`,
 					arg: formula.homepage,
 				},
 			},
@@ -202,12 +218,14 @@ function run() {
 	// 6. MERGE & SORT BOTH LISTS
 	// & move shorter package names top (short names like `sd` are ranked further down otherwise)
 	// & sort by download count as secondary criteria
-	const allPackages = [...casks, ...formulas].sort((/** @type{any} */ a, /** @type{any} */ b) => {
-		const titleLengthDiff = a.title.length - b.title.length;
-		if (titleLengthDiff !== 0) return titleLengthDiff;
-		const downloadCountDiff = (b.downloads || 0) - (a.downloads || 0);
-		return downloadCountDiff;
-	});
+	const allPackages = [...casks, ...formulas].sort(
+		(/** @type{any} */ a, /** @type{any} */ b) => {
+			const titleLengthDiff = a.title.length - b.title.length;
+			if (titleLengthDiff !== 0) return titleLengthDiff;
+			const downloadCountDiff = (b.downloads || 0) - (a.downloads || 0);
+			return downloadCountDiff;
+		},
+	);
 
 	return JSON.stringify({
 		items: allPackages,
