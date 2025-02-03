@@ -4,7 +4,8 @@ const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 //──────────────────────────────────────────────────────────────────────────────
 
-const alfredMatcher = (/** @type {string} */ str) => `${str.replaceAll("-", " ")} ${str} `;
+const alfredMatcher = (/** @type {string} */ str) =>
+	`${str.replaceAll("-", " ")} ${str} `;
 
 //──────────────────────────────────────────────────────────────────────────────
 
