@@ -4,12 +4,11 @@ const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 //──────────────────────────────────────────────────────────────────────────────
 
-const alfredMatcher = (/** @type {string} */ str) => str.replaceAll("-", " ") + " " + str + " ";
+const alfredMatcher = (/** @type {string} */ str) => `${str.replaceAll("-", " ")} ${str} `;
 
 //──────────────────────────────────────────────────────────────────────────────
 
 /** @type {AlfredRun} */
-// biome-ignore lint/correctness/noUnusedVariables: Alfred run
 function run(argv) {
 	const isBrewReinstall = Boolean(argv[0]);
 	const includeMacAppStoreSetting = $.getenv("list_mac_app_store") === "1";
