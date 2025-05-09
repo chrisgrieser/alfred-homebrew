@@ -53,14 +53,13 @@ function httpRequest(url) {
 	return requestStr;
 }
 
-//──────────────────────────────────────────────────────────────────────────────
-// MAIN DATA
 /** @typedef {object} Formula
  * @property {string} name
  * @property {string} caveats
  * @property {string} desc
  * @property {string} homepage
  * @property {boolean} deprecated
+ * @property {boolean} installed
  */
 
 /** @typedef {object} Cask
@@ -68,6 +67,7 @@ function httpRequest(url) {
  * @property {string} desc
  * @property {string} homepage
  * @property {boolean} deprecated
+ * @property {boolean} installed
  */
 
 //──────────────────────────────────────────────────────────────────────────────
@@ -88,20 +88,13 @@ function run() {
 	const casksData = JSON.parse(JSON.parse(readFile(caskJson)).payload);
 	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
 
-	// 2. LOCAL INSTALLATION DATA (determined live every run)
-	// PERF `ls` quicker than `brew list` or the API
-	const installedPackages = app
-		.doShellScript('cd "$(brew --prefix)" ; ls -1 ./Cellar ; ls -1 ./Caskroom')
-		.split("\r");
-
-	// 3. DOWNLOAD COUNTS (cached by this workflow)
+	// 2. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
 	// INFO separate from Alfred's caching mechanism, since the installed
 	// packages should be determined more frequently
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
 	if (cacheIsOutdated(cask90d)) {
-		// biome-ignore lint/suspicious/noConsole: intentional
 		console.log("Updating download count cache.");
 		const caskDownloads = httpRequest(
 			"https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json",
@@ -115,23 +108,22 @@ function run() {
 	const caskDownloads = JSON.parse(readFile(cask90d)).formulae;
 	const formulaDownloads = JSON.parse(readFile(formula90d)).formulae; // SIC not `.casks`
 
-	// 4. ICONS
+	// 3. ICONS
 	const caskIcon = "🛢️ ";
 	const formulaIcon = "🍺 ";
 	const caveatIcon = "ℹ️ ";
 	const installedIcon = "✅ ";
 	const deprecatedIcon = "⚠️ ";
 
-	// biome-ignore lint/suspicious/noConsole: intentional
 	console.log("Caches ready.");
 
-	// 5. CREATE ALFRED ITEMS
+	// 4. CREATE ALFRED ITEMS
 	/** @type{AlfredItem&{downloads:number}[]} */
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
 
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (cask.installed) icons += " " + installedIcon;
 		if (cask.deprecated) icons += `   ${deprecatedIcon}[deprecated]`;
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
@@ -164,7 +156,7 @@ function run() {
 	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
 		const name = formula.name;
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (formula.installed) icons += " " + installedIcon;
 		if (formula.deprecated) icons += `   ${deprecatedIcon}deprecated`;
 
 		const caveatText = formula.caveats || "";
