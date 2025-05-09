@@ -60,6 +60,7 @@ function httpRequest(url) {
  * @property {string} homepage
  * @property {boolean} deprecated
  * @property {boolean} installed
+ * @property {string[]} dependencies
  */
 
 /** @typedef {object} Cask
@@ -75,6 +76,11 @@ function httpRequest(url) {
 /** @type {AlfredRun} */
 // biome-ignore lint/correctness/noUnusedVariables: Alfred run
 function run() {
+	const caskIcon = "🛢️";
+	const formulaIcon = "🍺";
+	const installedIcon = "✅";
+	const deprecatedIcon = "⚠️";
+
 	// 1. MAIN DATA (already cached by homebrew)
 	// DOCS https://formulae.brew.sh/docs/api/ & https://docs.brew.sh/Querying-Brew
 	// these files contain the API response of casks and formulas as payload; they
@@ -108,16 +114,7 @@ function run() {
 	const caskDownloads = JSON.parse(readFile(cask90d)).formulae;
 	const formulaDownloads = JSON.parse(readFile(formula90d)).formulae; // SIC not `.casks`
 
-	// 3. ICONS
-	const caskIcon = "🛢️ ";
-	const formulaIcon = "🍺 ";
-	const caveatIcon = "ℹ️ ";
-	const installedIcon = "✅ ";
-	const deprecatedIcon = "⚠️ ";
-
-	console.log("Caches ready.");
-
-	// 4. CREATE ALFRED ITEMS
+	// 3. CREATE ALFRED ITEMS
 	/** @type{AlfredItem&{downloads:number}[]} */
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
@@ -128,12 +125,11 @@ function run() {
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
 		const desc = cask.desc || "";
-		const sep = desc && downloads ? "  ·  " : "";
 
 		return {
 			title: name + icons,
 			match: alfredMatcher(name) + desc,
-			subtitle: [caskIcon, downloads, sep, desc].join(""),
+			subtitle: [caskIcon, downloads, " ", desc].join(" "),
 			arg: `--cask ${name}`,
 			quicklookurl: cask.homepage,
 			downloads: Number.parseInt(downloads.replace(/,/g, "")), // only for sorting
@@ -159,23 +155,16 @@ function run() {
 		if (formula.installed) icons += " " + installedIcon;
 		if (formula.deprecated) icons += `   ${deprecatedIcon}deprecated`;
 
-		const caveatText = formula.caveats || "";
-		const caveats = caveatText ? caveatIcon + " " : "";
 		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓` : "";
 		const desc = formula.desc || "";
-		const sep = desc && downloads ? "  ·  " : "";
 
 		return {
 			title: name + icons,
 			match: alfredMatcher(name) + desc,
-			subtitle: [formulaIcon, caveats, downloads, sep, desc].join(""),
+			subtitle: [formulaIcon, downloads, " ", desc].join(" "),
 			arg: `--formula ${name}`,
 			quicklookurl: formula.homepage,
 			downloads: Number.parseInt(downloads.replaceAll(",", "")), // only for sorting
-			text: {
-				largetype: caveatText,
-				copy: caveatText,
-			},
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
 				cmd: {
@@ -191,7 +180,7 @@ function run() {
 		};
 	});
 
-	// 6. MERGE & SORT BOTH LISTS
+	// 4. MERGE & SORT BOTH LISTS
 	// a. move shorter package names top, since short names like `sd` are otherwise ranked
 	//    further down, making them often hard to find
 	// b. sort by download count as secondary criteria
@@ -204,9 +193,6 @@ function run() {
 
 	return JSON.stringify({
 		items: allPackages,
-		cache: {
-			seconds: 3600, // update regularly for correct identification of installed packages
-			loosereload: true,
-		},
+		cache: { seconds: 3600, loosereload: true }, // update regularly for correct identification of installed packages
 	});
 }
