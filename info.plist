@@ -585,9 +585,16 @@
 	+ Optionally use the `--zap` option for a clean uninstallation.
 	+ &lt;kbd&gt;⇧&lt;/kbd&gt;&lt;kbd&gt;⏎&lt;/kbd&gt;: Show package information (`brew info`) in Text View.
 
+## Mac App Store apps
+You might also be interested in [this workflow to search the Mac App
+Store](https://github.com/chrisgrieser/alfred-mac-app-store-search).
+
+💡 You can set both of them to the same keyword to simultaneously search homebrew
+and the Mac App Store.
+
 ---
 
-Created by [Chris Grieser](https://chris-grieser.de/)</string>
+#### Created by [Chris Grieser](https://chris-grieser.de/)   |   ⭐️ [Star on GitHub](https://github.com/chrisgrieser/alfred-homebrew)</string>
 	<key>uidata</key>
 	<dict>
 		<key>0BAF56E8-B65A-478A-B848-F09FFE73A12B</key>
@@ -740,7 +747,7 @@ Created by [Chris Grieser](https://chris-grieser.de/)</string>
 				<string>include</string>
 			</dict>
 			<key>description</key>
-			<string>When using the uninstallation command, also list apps from the Mac App Store. They will be opened with AppCleaner.app for clean uninstallation.</string>
+			<string>When using the uninstallation command, also list apps from the Mac App Store. They will be opened with `AppCleaner.app` for clean uninstallation.</string>
 			<key>label</key>
 			<string>Mac App Store</string>
 			<key>type</key>

@@ -40,6 +40,14 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 > of packages is automatically updated when you run `brew update` in your
 > terminal.
 
+## Mac App Store apps
+You might also be interested in [this workflow to search the Mac App
+Store](https://github.com/chrisgrieser/alfred-mac-app-store-search).
+
+> [!TIP]
+> You can set both of them to the same keyword to simultaneously search homebrew
+> and the Mac App Store.
+
 ## Installation
 [➡️ Download the latest release.](./releases/latest)
 
