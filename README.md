@@ -41,7 +41,7 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 ## Mac App Store apps
 You might also be interested in [this workflow to search the Mac App
-Store](https://github.com/chrisgrieser/alfred-mac-app-store-search).
+Store](https://alfred.app/workflows/chrisgrieser/mac-app-store-search/).
 
 > [!TIP]
 > You can set both of them to the same keyword to simultaneously search homebrew
