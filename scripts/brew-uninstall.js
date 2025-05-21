@@ -79,8 +79,7 @@ function run() {
 	return JSON.stringify({
 		items: allApps,
 		cache: {
-			// INFO low value, since leftover apps after uninstallation would be irritating to the user
-			seconds: 120,
+			seconds: 120, // quick since leftover apps after uninstallation would be confusing
 			loosereload: true,
 		},
 	});
