@@ -53,22 +53,26 @@ function httpRequest(url) {
 	return requestStr;
 }
 
+// WARN do not use the `installed` field, since the data there is empty, despite
+// the homebrew docs suggested otherwise.
 /** @typedef {object} Formula
  * @property {string} name
  * @property {string} caveats
  * @property {string} desc
  * @property {string} homepage
  * @property {boolean} deprecated
- * @property {boolean} installed
+ * @property {object[]} installed
  * @property {string[]} dependencies
  */
 
+// WARN do not use the `installed` field, since the data there is empty, despite
+// the homebrew docs suggested otherwise.
 /** @typedef {object} Cask
  * @property {string} token
  * @property {string} desc
  * @property {string} homepage
  * @property {boolean} deprecated
- * @property {boolean} installed
+ * @property {object} installed
  */
 
 //──────────────────────────────────────────────────────────────────────────────
@@ -94,7 +98,13 @@ function run() {
 	const casksData = JSON.parse(JSON.parse(readFile(caskJson)).payload);
 	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
 
-	// 2. DOWNLOAD COUNTS (cached by this workflow)
+	// 2. LOCAL INSTALLATION DATA (determined live every run)
+	// PERF `ls` quicker than `brew list` or the API
+	const installedPackages = app
+		.doShellScript('cd "$(brew --prefix)" ; ls -1 ./Cellar ; ls -1 ./Caskroom')
+		.split("\r");
+
+	// 3. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
 	// INFO separate from Alfred's caching mechanism, since the installed
 	// packages should be determined more frequently
@@ -114,13 +124,12 @@ function run() {
 	const caskDownloads = JSON.parse(readFile(cask90d)).formulae;
 	const formulaDownloads = JSON.parse(readFile(formula90d)).formulae; // SIC not `.casks`
 
-	// 3. CREATE ALFRED ITEMS
+	// 4. CREATE ALFRED ITEMS
 	/** @type{AlfredItem&{downloads:number}[]} */
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
-
 		let icons = "";
-		if (cask.installed) icons += " " + installedIcon;
+		if (installedPackages.includes(name)) icons += " " + installedIcon;
 		if (cask.deprecated) icons += `   ${deprecatedIcon}[deprecated]`;
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
@@ -152,7 +161,7 @@ function run() {
 	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
 		const name = formula.name;
 		let icons = "";
-		if (formula.installed) icons += " " + installedIcon;
+		if (installedPackages.includes(name)) icons += " " + installedIcon;
 		if (formula.deprecated) icons += `   ${deprecatedIcon}deprecated`;
 
 		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓` : "";
@@ -180,7 +189,7 @@ function run() {
 		};
 	});
 
-	// 4. MERGE & SORT BOTH LISTS
+	// 5. MERGE & SORT BOTH LISTS
 	// a. move shorter package names top, since short names like `sd` are otherwise ranked
 	//    further down, making them often hard to find
 	// b. sort by download count as secondary criteria
