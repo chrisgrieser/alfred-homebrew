@@ -99,10 +99,10 @@ function run() {
 	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
 
 	// 2. LOCAL INSTALLATION DATA (determined live every run)
-	// PERF `ls` quicker than `brew list` or the API
-	const installedPackages = app
-		.doShellScript('cd "$(brew --prefix)" ; ls -1 ./Cellar ; ls -1 ./Caskroom')
-		.split("\r");
+	// PERF `ls` quicker than `brew list` 
+	// (and the json files miss actual installation info)
+	const installedFormulas = app.doShellScript('ls -1 "$(brew --prefix)/Cellar"').split("\r");
+	const installedCasks = app.doShellScript('ls -1 "$(brew --prefix)/Caskroom"').split("\r");
 
 	// 3. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
@@ -129,7 +129,7 @@ function run() {
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (installedCasks.includes(name)) icons += " " + installedIcon;
 		if (cask.deprecated) icons += `   ${deprecatedIcon}[deprecated]`;
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
@@ -161,7 +161,7 @@ function run() {
 	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
 		const name = formula.name;
 		let icons = "";
-		if (installedPackages.includes(name)) icons += " " + installedIcon;
+		if (installedFormulas.includes(name)) icons += " " + installedIcon;
 		if (formula.deprecated) icons += `   ${deprecatedIcon}deprecated`;
 
 		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓` : "";
