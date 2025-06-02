@@ -110,21 +110,23 @@ function run() {
 	// packages should be determined more frequently
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
+	let caskDlRaw;
+	let formulaDlRaw;
 	if (cacheIsOutdated(cask90d)) {
 		console.log("Updating download count cache.");
-		const caskDownloads = httpRequest(
+		caskDlRaw = httpRequest(
 			"https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json",
 		);
-		const formulaDownloads = httpRequest(
+		formulaDlRaw = httpRequest(
 			"https://formulae.brew.sh/api/analytics/install-on-request/homebrew-core/90d.json",
 		);
-		writeToFile(cask90d, caskDownloads);
-		writeToFile(formula90d, formulaDownloads);
+		writeToFile(cask90d, caskDlRaw);
+		writeToFile(formula90d, formulaDlRaw);
 	}
-	const caskDownloads = JSON.parse(readFile(cask90d)).formulae;
-	const formulaDownloads = JSON.parse(readFile(formula90d)).formulae; // SIC not `.casks`
+	const caskDownloads = JSON.parse(caskDlRaw || readFile(cask90d)).formulae;
+	const formulaDownloads = JSON.parse(formulaDlRaw || readFile(formula90d)).formulae; // SIC not `.casks`
 
-	// 4. CREATE ALFRED ITEMS
+	// 4. CREATE ALFRED ITEMS (will be cached for an hour by Alfred)
 	/** @type{AlfredItem&{downloads:number}[]} */
 	const casks = casksData.map((/** @type {Cask} */ cask) => {
 		const name = cask.token;
