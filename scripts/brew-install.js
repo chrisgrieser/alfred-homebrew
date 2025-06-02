@@ -99,7 +99,7 @@ function run() {
 	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
 
 	// 2. LOCAL INSTALLATION DATA (determined live every run)
-	// PERF `ls` quicker than `brew list` 
+	// PERF `ls` quicker than `brew list`
 	// (and the json files miss actual installation info)
 	const installedFormulas = app.doShellScript('ls -1 "$(brew --prefix)/Cellar"').split("\r");
 	const installedCasks = app.doShellScript('ls -1 "$(brew --prefix)/Caskroom"').split("\r");
@@ -140,6 +140,7 @@ function run() {
 			match: alfredMatcher(name) + desc,
 			subtitle: [caskIcon, downloads, " ", desc].join(" "),
 			arg: `--cask ${name}`,
+			variables: { brewfileLine: `cask "${name}"` },
 			quicklookurl: cask.homepage,
 			downloads: Number.parseInt(downloads.replace(/,/g, "")), // only for sorting
 			mods: {
@@ -172,6 +173,7 @@ function run() {
 			match: alfredMatcher(name) + desc,
 			subtitle: [formulaIcon, downloads, " ", desc].join(" "),
 			arg: `--formula ${name}`,
+			variables: { brewfileLine: `brew "${name}"` },
 			quicklookurl: formula.homepage,
 			downloads: Number.parseInt(downloads.replaceAll(",", "")), // only for sorting
 			mods: {

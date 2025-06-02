@@ -1,7 +1,7 @@
 # Homebrew Search for Alfred
-![GitHub Downloads](https://img.shields.io/github/downloads/chrisgrieser/alfred-homebrew/total?label=GitHub%20Downloads&style=plastic&logo=github)
-![Alfred Gallery Downloads](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchrisgrieser%2F.config%2Frefs%2Fheads%2Fmain%2FAlfred.alfredpreferences%2Falfred-workflow-download-count.yaml&query=alfred-homebrew&style=plastic&logo=alfred&label=Gallery%20Downloads&color=%235C1F87)
-![Latest Release](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic)
+![GitHub downloads](https://img.shields.io/github/downloads/chrisgrieser/alfred-homebrew/total?label=GitHub%20Downloads&style=plastic&logo=github)
+![Alfred Gallery downloads](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchrisgrieser%2F.config%2Frefs%2Fheads%2Fmain%2FAlfred.alfredpreferences%2Falfred-workflow-download-count.yaml&query=alfred-homebrew&style=plastic&logo=alfred&label=Gallery%20Downloads&color=%235C1F87)
+![Latest release](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic)
 
 Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
@@ -16,17 +16,16 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
   previews of package homepages.
 
 ## Usage
-- Search for a Homebrew package via the `bi` keyword.
+- Search for a Homebrew package via the `bi` keyword. (+ The download counts
+refer to the number of downloads per 90 days.)
 	+ <kbd>⏎</kbd>: Install the package (`brew install`) in the Terminal. (Uses
-	  the terminal app you have configured [in your Alfred
-	  settings](https://www.alfredapp.com/help/features/terminal/).)
+	the terminal app you have configured [in your Alfred
+	settings](https://www.alfredapp.com/help/features/terminal/).)
 	+ <kbd>⌘⏎</kbd>: Open the package's homepage (`brew home`).
 	+ <kbd>⌥⏎</kbd>: Copy the package's homepage to the clipboard.
 	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ <kbd>⌘Y</kbd> Quick Look a screenshot of the app, if available.
-	+ The download counts refer to the number of downloads per 90 days.
 - Uninstall a package via the `bu` keyword (`brew uninstall`).
-	+ Optionally use the `--zap` option for a clean uninstallation.
 	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ <kbd>⌃⏎</kbd>: Reinstall the package (`brew reinstall`).
 
