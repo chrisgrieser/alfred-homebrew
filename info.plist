@@ -853,7 +853,7 @@ and the Mac App Store.
 				<string>include Mac App Store apps</string>
 			</dict>
 			<key>description</key>
-			<string>Also list apps from the Mac App Store. They will be uninstalled with `AppCleaner.app`.</string>
+			<string>Also list apps from the Mac App Store. They will be uninstalled with `AppCleaner.app`. (Apps installed via homebrew are still uninstalled via homebrew.)</string>
 			<key>label</key>
 			<string></string>
 			<key>type</key>
