@@ -11,12 +11,9 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 
 ## Requirements
 - [Homebrew](https://brew.sh/)
-- Optional:
-  [AlfredExtraPane](https://github.com/mr-pennyworth/alfred-extra-pane) for
-  previews of package homepages.
 
 ## Usage
-- Search for a Homebrew package via the `bi` keyword. (+ The download counts
+- Search for a Homebrew package via the `bi` keyword. (The download counts
 refer to the number of downloads per 90 days.)
 	+ <kbd>⏎</kbd>: Install the package (`brew install`) in the Terminal. (Uses
 	the terminal app you have configured [in your Alfred
@@ -25,14 +22,10 @@ refer to the number of downloads per 90 days.)
 	+ <kbd>⌥⏎</kbd>: Copy the package's homepage to the clipboard.
 	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ <kbd>⌘Y</kbd> Quick Look a screenshot of the app, if available.
-- Uninstall a package via the `bu` keyword (`brew uninstall`).
+- List packages to uninstall via the `bu` keyword.
+	+ <kbd>⏎</kbd>: Uninstall the package (`brew uninstall`) in the Terminal.
 	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
 	+ <kbd>⌃⏎</kbd>: Reinstall the package (`brew reinstall`).
-
-> [!NOTE]
-> The workflow uses the local homebrew packages cache. This means that the list
-> of packages is automatically updated when you run `brew update` in your
-> terminal.
 
 ## Mac App Store apps
 You might also be interested in [this workflow to search the Mac App
