@@ -10,22 +10,22 @@ Search, install, or uninstall Homebrew packages conveniently via Alfred.
 <img width="70%" alt="showcase brew uninstall" src="https://github.com/chrisgrieser/alfred-homebrew/assets/73286100/b40a4300-7b2d-44fd-89a3-90fdf0190271">
 
 ## Requirements
-- [Homebrew](https://brew.sh/)
++ [Homebrew](https://brew.sh/)
 
 ## Usage
-- Search for a Homebrew package via the `bi` keyword. (The download counts
++ Search for a Homebrew package via the `bi` keyword. (The download counts
 refer to the number of downloads per 90 days.)
-	+ <kbd>⏎</kbd>: Install the package (`brew install`) in the Terminal. (Uses
-	the terminal app you have configured [in your Alfred
-	settings](https://www.alfredapp.com/help/features/terminal/).)
-	+ <kbd>⌘⏎</kbd>: Open the package's homepage (`brew home`).
-	+ <kbd>⌥⏎</kbd>: Copy the package's homepage to the clipboard.
-	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
-	+ <kbd>⌘Y</kbd> Quick Look a screenshot of the app, if available.
-- List packages to uninstall via the `bu` keyword.
-	+ <kbd>⏎</kbd>: Uninstall the package (`brew uninstall`) in the Terminal.
-	+ <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
-	+ <kbd>⌃⏎</kbd>: Reinstall the package (`brew reinstall`).
+    + <kbd>⏎</kbd>: Install the package (`brew install`) in the Terminal. (Uses
+    the terminal app you have configured [in your Alfred
+    settings](https://www.alfredapp.com/help/features/terminal/).)
+    + <kbd>⌘⏎</kbd>: Open the package's homepage (`brew home`).
+    + <kbd>⌥⏎</kbd>: Copy the package's homepage to the clipboard.
+    + <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
+    + <kbd>⌘Y</kbd> Quick Look a screenshot of the app, if available.
++ List packages to uninstall via the `bu` keyword.
+    + <kbd>⏎</kbd>: Uninstall the package (`brew uninstall`) in the Terminal.
+    + <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
+    + <kbd>⌃⏎</kbd>: Reinstall the package (`brew reinstall`).
 
 ## Mac App Store apps
 You might also be interested in [this workflow to search the Mac App
@@ -46,10 +46,10 @@ digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
 compatibility. If you are interested in this subject, feel free to get in touch.
 
-- [Website](https://chris-grieser.de/)
-- [Mastodon](https://pkm.social/@pseudometa)
-- [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
-- [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
++ [Website](https://chris-grieser.de/)
++ [Mastodon](https://pkm.social/@pseudometa)
++ [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
++ [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
 
 <a href='https://ko-fi.com/Y8Y86SQ91' target='_blank'> <img height='36'
 style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3'
