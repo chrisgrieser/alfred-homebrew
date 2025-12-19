@@ -1,4 +1,4 @@
-# Homebrew Search for Alfred
+# Homebrew search for Alfred
 ![GitHub downloads](https://img.shields.io/github/downloads/chrisgrieser/alfred-homebrew/total?label=GitHub%20Downloads&style=plastic&logo=github)
 ![Alfred Gallery downloads](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchrisgrieser%2F.config%2Frefs%2Fheads%2Fmain%2FAlfred.alfredpreferences%2Falfred-gallery-downloads.yaml&query=homebrew-search&style=plastic&logo=alfred&label=Gallery%20Downloads&color=%235C1F87)
 ![Latest release](https://img.shields.io/github/v/release/chrisgrieser/alfred-homebrew?label=Latest%20Release&style=plastic)
@@ -27,7 +27,7 @@ refer to the number of downloads per 90 days.)
     - <kbd>⇧⏎</kbd>: Show package information (`brew info`) in Text View.
     - <kbd>⌃⏎</kbd>: Reinstall the package (`brew reinstall`).
 
-## Mac App Store apps
+## Mac app store apps
 You might also be interested in [this workflow to search the Mac App
 Store](https://alfred.app/workflows/chrisgrieser/mac-app-store-search/).
 
