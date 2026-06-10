@@ -89,13 +89,18 @@ function run() {
 	// these files contain the API response of casks and formulas as payload; they
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
-	const caskJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/cask.jws.json";
-	const formulaJson = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/formula.jws.json";
-	if (!fileExists(formulaJson) || !fileExists(caskJson)) app.doShellScript("brew update");
 
-	// SIC data must be parsed twice, since that is how the cache is saved by homebrew
-	const casksData = JSON.parse(JSON.parse(readFile(caskJson)).payload);
-	const formulaData = JSON.parse(JSON.parse(readFile(formulaJson)).payload);
+	const brewJson =
+	app.pathTo("home folder") +
+	"/Library/Caches/Homebrew/api/internal/packages.arm64_tahoe.jws.json";
+
+    if (!fileExists(brewJson)) app.doShellScript("brew update");
+
+// SIC data must be parsed twice, since that is how the cache is saved by homebrew
+   const brewData = JSON.parse(JSON.parse(readFile(brewJson)).payload);
+
+   const casksData = brewData.casks;
+   const formulaData = brewData.formulae;
 
 	// 2. LOCAL INSTALLATION DATA (determined live every run)
 	// PERF `ls` quicker than `brew list`
@@ -127,8 +132,8 @@ function run() {
 
 	// 4. CREATE ALFRED ITEMS (will be cached for an hour by Alfred)
 	/** @type{AlfredItem&{downloads:number}[]} */
-	const casks = casksData.map((/** @type {Cask} */ cask) => {
-		const name = cask.token;
+	const casks = Object.entries(casksData).map(([caskname, cask]) => {
+		const name = caskname;
 		let icons = "";
 		if (installedCasks.includes(name)) icons += " " + installedIcon;
 		if (cask.deprecated) icons += `   [${deprecatedIcon} deprecated]`;
@@ -160,8 +165,8 @@ function run() {
 	});
 
 	/** @type{AlfredItem&{downloads:number}[]} */
-	const formulas = formulaData.map((/** @type {Formula} */ formula) => {
-		const name = formula.name;
+	const formulas = Object.entries(formulaData).map(([formulaname, formula]) => {
+		const name = formulaname;
 		let icons = "";
 		if (installedFormulas.includes(name)) icons += " " + installedIcon;
 		if (formula.deprecated) icons += `   [${deprecatedIcon} deprecated]`;
