@@ -74,6 +74,25 @@ function httpRequest(url) {
  * @property {object} installed
  */
 
+/**
+ * @param {string} title
+ * @param {string=} subtitle
+ * @param {string=} arg
+ */
+function alfredErrorItem(title, subtitle, arg) {
+	const icon = arg ? "⛔" : "⚠️";
+	return JSON.stringify({
+		items: [
+			{
+				title: icon + " " + title,
+				subtitle: subtitle,
+				valid: Boolean(arg),
+				arg: arg || "",
+			},
+		],
+	});
+}
+
 //──────────────────────────────────────────────────────────────────────────────
 
 /** @type {AlfredRun} */
@@ -84,33 +103,52 @@ function run() {
 	const installedIcon = "✅";
 	const deprecatedIcon = "⚠️";
 
+	// 0. Version check since Homebrew API changed with 6.0
+	const brewVersionStr =
+		app.doShellScript("brew --version").match(/Homebrew (\d+\.\d)/)?.[1] || "0";
+	console.log("Homebrew version: " + brewVersionStr);
+	const brewVersion = Number(brewVersionStr);
+	if (brewVersion < 6.0) {
+		return alfredErrorItem(
+			"This workflow now requires Homebrew 6.0 or newer.",
+			"You can update Homebrew by running `brew update` in your terminal.",
+		);
+	}
+
 	// 1. MAIN DATA (already cached by homebrew)
 	// DOCS https://formulae.brew.sh/docs/api/ & https://docs.brew.sh/Querying-Brew
-	// these files contain the API response of casks and formulas as payload; they
+	// This file contains the API response of casks and formulas as payload; they
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
+	const apiCacheFolder = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/internal";
+	const brewCache = apiCacheFolder + "/packages.arm64_tahoe.jws.json";
 
-	const brewJson =
-	app.pathTo("home folder") +
-	"/Library/Caches/Homebrew/api/internal/packages.arm64_tahoe.jws.json";
+	if (!fileExists(brewCache)) {
+		app.doShellScript("brew update"); // re-creates the cache
 
-    if (!fileExists(brewJson)) app.doShellScript("brew update");
+		// in case homebrew uses a different cache location, e.g. for other architectures
+		const apiCache = app.doShellScript('ls -1 "$HOME/Library/Caches/Homebrew/api/internal"');
+		console.log("Files in API cache folder:", apiCache);
+		if (!fileExists(brewCache)) {
+			return alfredErrorItem(
+				"Unable to find Homebrew cache file.",
+				"↩: Report the issue on GitHub: https://github.com/chrisgrieser/alfred-homebrew/issues/21",
+				"https://github.com/chrisgrieser/alfred-homebrew/issues/21",
+			);
+		}
+	}
 
-// SIC data must be parsed twice, since that is how the cache is saved by homebrew
-   const brewData = JSON.parse(JSON.parse(readFile(brewJson)).payload);
-
-   const casksData = brewData.casks;
-   const formulaData = brewData.formulae;
+	// SIC data must be parsed twice, since that is how the cache is saved by homebrew
+	const brewData = JSON.parse(JSON.parse(readFile(brewCache)).payload);
 
 	// 2. LOCAL INSTALLATION DATA (determined live every run)
-	// PERF `ls` quicker than `brew list`
-	// (and the json files miss actual installation info)
+	// PERF `ls` quicker than `brew list` (and the json files miss actual installation info)
 	const installedFormulas = app.doShellScript('ls -1 "$(brew --prefix)/Cellar"').split("\r");
 	const installedCasks = app.doShellScript('ls -1 "$(brew --prefix)/Caskroom"').split("\r");
 
 	// 3. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
-	// INFO separate from Alfred's caching mechanism, since the installed
+	// separate from Alfred's caching mechanism, since the installed
 	// packages should be determined more frequently
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
@@ -131,8 +169,8 @@ function run() {
 	const formulaDownloads = JSON.parse(formulaDlRaw || readFile(formula90d)).formulae; // SIC not `.casks`
 
 	// 4. CREATE ALFRED ITEMS (will be cached for an hour by Alfred)
-	/** @type{AlfredItem&{downloads:number}[]} */
-	const casks = Object.entries(casksData).map(([caskname, cask]) => {
+	/** @type{(AlfredItem&{downloads:number})[]} */
+	const casks = Object.entries(brewData.casks).map(([caskname, cask]) => {
 		const name = caskname;
 		let icons = "";
 		if (installedCasks.includes(name)) icons += " " + installedIcon;
@@ -164,8 +202,8 @@ function run() {
 		};
 	});
 
-	/** @type{AlfredItem&{downloads:number}[]} */
-	const formulas = Object.entries(formulaData).map(([formulaname, formula]) => {
+	/** @type{(AlfredItem&{downloads:number})[]} */
+	const formulas = Object.entries(brewData.formulae).map(([formulaname, formula]) => {
 		const name = formulaname;
 		let icons = "";
 		if (installedFormulas.includes(name)) icons += " " + installedIcon;
