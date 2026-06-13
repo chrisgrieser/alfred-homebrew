@@ -148,8 +148,7 @@ function run() {
 
 	// 3. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
-	// separate from Alfred's caching mechanism, since the installed
-	// packages should be determined more frequently
+	// separate from Alfred's caching, since installed packages should be checked more frequently
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
 	let caskDlRaw;
@@ -178,11 +177,13 @@ function run() {
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
 		const desc = cask.desc || "";
+		const depsInfo = cask.depends_on_args?.[":macos"];
+		const deps = depsInfo !== ":any" ? `(needs ${depsInfo})` : "";
 
 		return {
 			title: name + icons,
 			match: alfredMatcher(name) + desc,
-			subtitle: [caskIcon, downloads, " ", desc].join(" "),
+			subtitle: [caskIcon, downloads, deps, " ", desc].join(" "),
 			arg: `--cask ${name}`,
 			variables: { brewfileLine: `cask "${name}"` },
 			quicklookurl: cask.homepage,
