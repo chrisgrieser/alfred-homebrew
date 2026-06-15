@@ -88,16 +88,18 @@ function alfredErrorItem(title, subtitle, arg) {
 	});
 }
 
+const ICONS = {
+	cask: "🛢️",
+	formula: "🍺",
+	installed: "✅",
+	deprecated: "⚠️",
+};
+
 //──────────────────────────────────────────────────────────────────────────────
 
 /** @type {AlfredRun} */
 // biome-ignore lint/correctness/noUnusedVariables: Alfred run
 function run() {
-	const caskIcon = "🛢️";
-	const formulaIcon = "🍺";
-	const installedIcon = "✅";
-	const deprecatedIcon = "⚠️";
-
 	// 0. Version check since Homebrew API changed with 6.0
 	const brewVersionStr =
 		app.doShellScript("brew --version").match(/Homebrew (\d+\.\d)/)?.[1] || "0";
@@ -167,8 +169,8 @@ function run() {
 	/** @type{(AlfredItem&{downloads:number})[]} */
 	const casks = Object.entries(brewData.casks).map(([name, cask]) => {
 		let icons = "";
-		if (installedCasks.includes(name)) icons += " " + installedIcon;
-		if (cask.deprecated) icons += `   [${deprecatedIcon} deprecated]`;
+		if (installedCasks.includes(name)) icons += " " + ICONS.installed;
+		if (cask.deprecated) icons += `   [${ICONS.deprecated} deprecated]`;
 
 		const downloads = caskDownloads[name] ? `${caskDownloads[name][0].count}↓` : "";
 		const desc = cask.desc || "";
@@ -186,7 +188,7 @@ function run() {
 		return {
 			title: name + icons,
 			match: alfredMatcher(name) + desc,
-			subtitle: [caskIcon, downloads, deps, " ", desc].join(" "),
+			subtitle: [ICONS.cask, downloads, deps, " ", desc].join(" "),
 			arg: `--cask ${name}`,
 			variables: { brewfileLine: `cask "${name}"` },
 			quicklookurl: cask.homepage,
@@ -203,8 +205,8 @@ function run() {
 	/** @type{(AlfredItem&{downloads:number})[]} */
 	const formulas = Object.entries(brewData.formulae).map(([name, formula]) => {
 		let icons = "";
-		if (installedFormulas.includes(name)) icons += " " + installedIcon;
-		if (formula.deprecated) icons += `   [${deprecatedIcon} deprecated]`;
+		if (installedFormulas.includes(name)) icons += " " + ICONS.installed;
+		if (formula.deprecated) icons += `   [${ICONS.deprecated} deprecated]`;
 
 		const downloads = formulaDownloads[name] ? `${formulaDownloads[name][0].count}↓` : "";
 		const desc = formula.desc || "";
@@ -212,7 +214,7 @@ function run() {
 		return {
 			title: name + icons,
 			match: alfredMatcher(name) + desc,
-			subtitle: [formulaIcon, downloads, " ", desc].join(" "),
+			subtitle: [ICONS.formula, downloads, " ", desc].join(" "),
 			arg: `--formula ${name}`,
 			variables: { brewfileLine: `brew "${name}"` },
 			quicklookurl: formula.homepage,
