@@ -34,7 +34,7 @@ function ensureCacheFolderExists() {
 }
 
 /** @param {string} path */
-function cacheIsOutdated(path) {
+function cacheOlderThan7days(path) {
 	ensureCacheFolderExists();
 	const cacheObj = Application("System Events").aliases[path];
 	if (!cacheObj.exists()) return true;
@@ -102,8 +102,7 @@ function run() {
 	const brewVersionStr =
 		app.doShellScript("brew --version").match(/Homebrew (\d+\.\d)/)?.[1] || "0";
 	console.log("Homebrew version: " + brewVersionStr);
-	const brewVersion = Number(brewVersionStr);
-	if (brewVersion < 6.0) {
+	if (Number(brewVersionStr) < 6.0) {
 		return alfredErrorItem(
 			"This workflow now requires Homebrew 6.0 or newer.",
 			"You can update Homebrew by running `brew update` in your terminal.",
@@ -116,10 +115,13 @@ function run() {
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
 
-	/** @param {any=} refresh */
+	/** @description Homebrew API caches are named after OS versions, so there is
+	 * no fixed name of the cache file, so we need to find it.
+	 * @param {any=} refresh
+	 */
 	function findCache(refresh) {
-		if (refresh) app.doShellScript("brew update"); // re-creates the cache
-		// fallback to `true`, since exiting non-zero makes doShellScript fail
+		if (refresh) app.doShellScript("brew update");
+		// fallback to `true` (returns empty string), as non-zero exit makes `doShellScript` fail
 		return app.doShellScript(
 			'ls -1 "$HOME/Library/Caches/Homebrew/api/internal/packages."*".json" || true',
 		);
@@ -139,25 +141,22 @@ function run() {
 	const brewData = JSON.parse(JSON.parse(readFile(brewCache)).payload);
 
 	// 2. LOCAL INSTALLATION DATA (determined live every run)
-	// PERF `ls` quicker than `brew list` (and the json files miss actual installation info)
+	// PERF `ls` quicker than `brew list`
 	const installedFormulas = app.doShellScript('ls -1 "$(brew --prefix)/Cellar"').split("\r");
 	const installedCasks = app.doShellScript('ls -1 "$(brew --prefix)/Caskroom"').split("\r");
 
 	// 3. DOWNLOAD COUNTS (cached by this workflow)
 	// DOCS https://formulae.brew.sh/analytics/
-	// separate from Alfred's caching, since installed packages should be checked more frequently
+	// separate since download counts do not require as frequent updates
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
 	let caskDlRaw;
 	let formulaDlRaw;
-	if (cacheIsOutdated(cask90d)) {
+	if (cacheOlderThan7days(cask90d)) {
 		console.log("Updating download count cache.");
-		caskDlRaw = httpRequest(
-			"https://formulae.brew.sh/api/analytics/cask-install/homebrew-cask/90d.json",
-		);
-		formulaDlRaw = httpRequest(
-			"https://formulae.brew.sh/api/analytics/install-on-request/homebrew-core/90d.json",
-		);
+		const analytics = "https://formulae.brew.sh/api/analytics";
+		caskDlRaw = httpRequest(analytics + "/cask-install/homebrew-cask/90d.json");
+		formulaDlRaw = httpRequest(analytics + "/install-on-request/homebrew-core/90d.json");
 		writeToFile(cask90d, caskDlRaw);
 		writeToFile(formula90d, formulaDlRaw);
 	}
@@ -194,14 +193,8 @@ function run() {
 			downloads: Number.parseInt(downloads.replace(/,/g, "")), // only for sorting
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
-				cmd: {
-					subtitle: "⌘: Open " + cask.homepage,
-					arg: cask.homepage,
-				},
-				alt: {
-					subtitle: "⌥: Copy " + cask.homepage,
-					arg: cask.homepage,
-				},
+				cmd: { subtitle: "⌘: Open " + cask.homepage, arg: cask.homepage },
+				alt: { subtitle: "⌥: Copy " + cask.homepage, arg: cask.homepage },
 			},
 			uid: name, // remember selections
 		};
@@ -226,14 +219,8 @@ function run() {
 			downloads: Number.parseInt(downloads.replaceAll(",", "")), // only for sorting
 			mods: {
 				// PERF quicker to pass here than to call `brew home` on brew-id
-				cmd: {
-					subtitle: "⌘: Open " + formula.homepage,
-					arg: formula.homepage,
-				},
-				alt: {
-					subtitle: "⌥: Copy " + formula.homepage,
-					arg: formula.homepage,
-				},
+				cmd: { subtitle: "⌘: Open " + formula.homepage, arg: formula.homepage },
+				alt: { subtitle: "⌥: Copy " + formula.homepage, arg: formula.homepage },
 			},
 			uid: name, // remember selections
 		};
