@@ -122,7 +122,10 @@ function run() {
 	 * @param {any=} refresh
 	 */
 	function findCache(refresh) {
-		if (refresh) app.doShellScript("brew update");
+		if (refresh) {
+			console.log("Refreshing Homebrew cache via `brew update`");
+			app.doShellScript("brew update");
+		}
 		// fallback to `true` (returns empty string), as non-zero exit makes `doShellScript` fail
 		return app.doShellScript(
 			'ls -1 "$HOME/Library/Caches/Homebrew/api/internal/packages."*".json" || true',
