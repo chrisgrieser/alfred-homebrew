@@ -6,8 +6,6 @@ app.includeStandardAdditions = true;
 
 const alfredMatcher = (/** @type {string} */ str) => str.replaceAll("-", " ") + " " + str + " ";
 
-const fileExists = (/** @type {string} */ filePath) => Application("Finder").exists(Path(filePath));
-
 /** @param {string} path */
 function readFile(path) {
 	const data = $.NSFileManager.defaultManager.contentsAtPath(path);
@@ -117,23 +115,25 @@ function run() {
 	// This file contains the API response of casks and formulas as payload; they
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
-	const apiCacheFolder = app.pathTo("home folder") + "/Library/Caches/Homebrew/api/internal";
-	const brewCache = apiCacheFolder + "/packages.arm64_tahoe.jws.json";
 
-	if (!fileExists(brewCache)) {
-		app.doShellScript("brew update"); // re-creates the cache
-
-		// in case homebrew uses a different cache location, e.g. for other architectures
-		const apiCache = app.doShellScript('ls -1 "$HOME/Library/Caches/Homebrew/api/internal"');
-		console.log("Files in API cache folder:", apiCache);
-		if (!fileExists(brewCache)) {
-			return alfredErrorItem(
-				"Unable to find Homebrew cache file.",
-				"↩: Report the issue on GitHub: https://github.com/chrisgrieser/alfred-homebrew/issues/21",
-				"https://github.com/chrisgrieser/alfred-homebrew/issues/21",
-			);
-		}
+	/** @param {any=} refresh */
+	function findCache(refresh) {
+		if (refresh) app.doShellScript("brew update"); // re-creates the cache
+		// fallback to `true`, since exiting non-zero makes doShellScript fail
+		return app.doShellScript(
+			'ls -1 "$HOME/Library/Caches/Homebrew/api/internal/packages."*".json" || true',
+		);
 	}
+	const apiCaches = findCache() || findCache("refresh"); // PERF only refresh when necessary
+	if (!apiCaches) {
+		return alfredErrorItem(
+			"Unable to find Homebrew cache file.",
+			"↩: Report the issue on GitHub: https://github.com/chrisgrieser/alfred-homebrew/issues/21",
+			"https://github.com/chrisgrieser/alfred-homebrew/issues/21",
+		);
+	}
+	console.log("Cache files:\n", apiCaches);
+	const brewCache = apiCaches.split("\r")[0]; // in case caches of previous OS versions exist
 
 	// SIC data must be parsed twice, since that is how the cache is saved by homebrew
 	const brewData = JSON.parse(JSON.parse(readFile(brewCache)).payload);
