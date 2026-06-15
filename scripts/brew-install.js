@@ -228,9 +228,9 @@ function run() {
 
 	// 5. MERGE & SORT BOTH LISTS
 	// a. move shorter package names top, since short names like `sd` are
-	// otherwise ranked further down, making them often hard to find
+	// otherwise ranked further down, making them often hard to find via Alfred
 	// b. sort by download count as secondary criteria
-	const allPackages = [...casks, ...formulas].sort((/** @type{any} */ a, /** @type{any} */ b) => {
+	const allPackages = [...casks, ...formulas].sort((a, b) => {
 		const titleLengthDiff = a.title.length - b.title.length;
 		if (titleLengthDiff !== 0) return titleLengthDiff;
 		const downloadCountDiff = (b.downloads || 0) - (a.downloads || 0);
