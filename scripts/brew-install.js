@@ -112,7 +112,7 @@ function run() {
 	}
 
 	// 1. MAIN DATA (already cached by homebrew)
-	// DOCS https://formulae.brew.sh/docs/api/ & https://docs.brew.sh/Querying-Brew
+	// https://formulae.brew.sh/docs/api/
 	// This file contains the API response of casks and formulas as payload; they
 	// are updated on each `brew update`. Since they are effectively caches,
 	// there is no need create caches of our own.
@@ -151,7 +151,7 @@ function run() {
 	const installedCasks = app.doShellScript('ls -1 "$(brew --prefix)/Caskroom"').split("\r");
 
 	// 3. DOWNLOAD COUNTS (cached by this workflow)
-	// DOCS https://formulae.brew.sh/analytics/
+	// https://formulae.brew.sh/analytics/
 	// separate since download counts do not require as frequent updates
 	const cask90d = $.getenv("alfred_workflow_cache") + "/caskDownloads90d.json";
 	const formula90d = $.getenv("alfred_workflow_cache") + "/formulaDownloads90d.json";
